@@ -48,7 +48,7 @@ export default new Vuex.Store({
   getters: {
     getCurrentQuestionNumber: (state) => state.currentQuestionNumber,
     getCurrentQuestion: (state) => {
-      /* TODO */
+      return state.questions[state.currentQuestionNumber];
     },
   },
   modules: {},

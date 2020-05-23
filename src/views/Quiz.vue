@@ -10,8 +10,6 @@
 </template>
 
 <script>
-// TODO on button click lets start with quiz
-
 export default {
   name: "Quiz",
   async created() {

@@ -25,8 +25,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "questions" */ "../views/Questions.vue"),
     beforeEnter: (to, from, next) => {
-      console.log(store);
-
       if (store.getters.isQuizLoaded) {
         next();
       } else {

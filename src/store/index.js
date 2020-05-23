@@ -8,11 +8,13 @@ export default new Vuex.Store({
     currentQuestionNumber: 0,
     questions: [],
     answers: [],
-    loading: false,
+    loading: false
   },
   mutations: {
-    addQuestions(state, questions) {
-      state.questions.push(questions);
+    prepareQuiz(state, questions) {
+      state.questions = questions;
+      state.currentQuestionNumber = 0;
+      state.answers = [];
     },
     submitAnswer(state, currentQuestionNumber, currentAnswer) {
       state.currentQuestionNumber = currentQuestionNumber + 1;
@@ -23,7 +25,7 @@ export default new Vuex.Store({
     },
     stopQuizLoader(state) {
       state.loading = false;
-    },
+    }
   },
   actions: {
     submitAnswer({ commit, getters }) {
@@ -38,18 +40,20 @@ export default new Vuex.Store({
       return fetch(
         "https://opentdb.com/api.php?amount=10&category=22&difficulty=medium&type=multiple"
       )
-        .then((response) => response.json())
-        .then((data) => {
-          commit("addQuestions", data.results);
+        .then(response => response.json())
+        .then(data => {
+          commit("prepareQuiz", data.results);
           commit("stopQuizLoader");
         });
-    },
+    }
   },
   getters: {
-    getCurrentQuestionNumber: (state) => state.currentQuestionNumber,
-    getCurrentQuestion: (state) => {
+    getCurrentQuestionNumber: state => state.currentQuestionNumber,
+    getTotalQuestionsNumber: state => state.questions.length,
+    getCurrentQuestion: state => {
       return state.questions[state.currentQuestionNumber];
     },
+    isQuizLoaded: state => state.questions.length > 0
   },
-  modules: {},
+  modules: {}
 });
